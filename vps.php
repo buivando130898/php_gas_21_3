@@ -10,10 +10,10 @@
         $date_gas = $today;
     }
 
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "update_gas1";
+     $servername = "172.17.0.2";
+     $username = "root";
+     $password = "ngangongao05";
+     $dbname = "update_gas";
         $conn = mysqli_connect($servername,$username,$password,$dbname);
 
 
@@ -136,14 +136,14 @@
         <link rel="stylesheet" href="./index.css"> <!-- Thẻ nhúng file CSS -->
         <script src="./js.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script> 
-        <link rel="shortcut icon" type="image/png" href="gas1.png"/>
+        <link rel="shortcut icon" type="image/png" href="https://iothello.tk/img/gas1.png"/>
     </head>
 
 <body>
 
     <div class="header">
         <div class="logo" id="logo_login" >
-        <img id="imglogo" src="gas1.png" alt="" width="40px" height="40px">
+        <img id="imglogo" src="https://iothello.tk/img/gas1.png" alt="" width="40px" height="40px">
         <h1 id="logo"> <a href=""> Gas Prices </a></h1>    
         </div>
 
@@ -161,7 +161,7 @@
     <div class = "moth_average">
     <center>
         <h2 > <p>Monthly average gas price chart</p></h2>
-        <a href="http://">go to >></a>
+        <a href="ava.php">go to >></a>
     </center>
     </div>
         

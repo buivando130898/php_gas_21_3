@@ -1,134 +1,115 @@
 <?php
 
-$gas_time = array();
-$gas_value =  array();
-$hour = 0;
-$today = date("Y-m-d");
-    if(isset($_GET["date_gas"]))
-	{
-		$date_gas = $_GET["date_gas"];
-	} else {
+    $hour = 0;
     $today = date("Y-m-d");
-            $date_gas = $today;
-    }
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "update_gas1";
-
-    $conn = mysqli_connect($servername,$username,$password,$dbname);
-    $sql = "SELECT * FROM gas WHERE gas_date = '$date_gas' and average < 300 ";
-    //echo $sql;
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-		// output dữ liệu trên trang
-		
-		while($row = $result->fetch_assoc()) {
-			$gas_time_0[]=$row["gas_time"];
-			$gas_price[]=$row["average"];
-            $gas_time_1 = $row["gas_time"];
-            $time_js[] = FLOOR((strtotime($gas_time_1)-strtotime("00:00:00"))/60);
-
-
-
-            $time2 = FLOOR((strtotime($gas_time_1)-strtotime("00:00:00"))/60);
-            $time2_hour = FLOOR($time2/60);
-            $gas_price_1=$row["average"];
-            $time2 = $time2 % 60;
-
-            //$array_time[$time2_hour][] =  $time2;
-            //$array_value[$time2_hour][] = $row["average"];
-            
-            
-            if($time2>=53 || $time2 <=7)
-            {
-                //echo "lolol";
-               $array_time[$time2_hour][0][] = $time2;
-               $array_value[$time2_hour][0][] = $row["average"];
-                
-            }
-            else if($time2>=8 && $time2<=22) 
-            {
-                $array_time[$time2_hour][1][] = $time2;
-                $array_value[$time2_hour][1][] = $row["average"];
-            }
-            else if($time2>=23 && $time2<=37)
-            {
-                echo $time2;
-                echo "lolol";
-                $array_time[$time2_hour][2][] =$time2;
-                $array_value[$time2_hour][2][] = $row["average"];
-            }
-            else if($time2>=38 && $time2<=52)
-            {
-                echo $time2;
-                echo "lolol";
-                $array_time[$time2_hour][3][] = $time2;
-                $array_value[$time2_hour][3][] = $row["average"];
-            }
-            
-            /*
-            if($time2%60 ==0)
-            {
-            echo $time2;
-            echo "       ";
-            
-            }*/
-
-		}   
-	}
- 
-    
-    for($i=0;$i<24;$i++)
-        {
-            for($h=0; $h<4; $h++){
-                $dem = 0;
-                $value = 0;
-                
-                for($j=0; $j<100; $j++)
-                {
-
-                    if(isset($array_time[$i][$h][$j])){
-                        //echo $array_time[$i][$h][$j]."  :   ".$array_value[$i][$h][$j]."........." ;
-                        //echo "       ";
-                        $dem++;
-                        $value = $value + $array_value[$i][$h][$j];
-                    }
-                    
-                }
-
-                $gas_time[] = $i.":".$h; 
-                //echo "     ".$i.":".$h."......";
-
-                if($dem != 0)
-                {
-                    $gas_value[] = FLOOR($value/$dem);
-                    //echo FLOOR($value/$dem);
-                }
-                else {
-                    
-                    $gas_value[] = 0;
-                    //echo "0";
-                }
-            
-                 
-        }
-        }
-
-echo "------------------------------------------";
-
-    for($i=0;$i < count($gas_value);$i++)
+    if(isset($_GET["date_gas"]))
     {
-        //echo $gas_value[$i];
-        //echo "       ";
-            
+        $date_gas = $_GET["date_gas"];
+    } else {
+        $date_gas = $today;
     }
 
+    $servername = "172.17.0.2";
+    $username = "root";
+    $password = "ngangongao05";
+    $dbname = "update_gas";
+
+        $conn = mysqli_connect($servername,$username,$password,$dbname);
+        $sql = "SELECT * FROM gas WHERE gas_date = '$date_gas'  ";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+
+                $gas_time_0[]=$row["gas_time"];
+                
+                $gas_price[]=$row["average"];
+                $gas_price_low[]=$row["low"];
+                $gas_price_high[]=$row["high"];
+
+                $gas_time_1 = $row["gas_time"];
+
+                $time2 = FLOOR((strtotime($gas_time_1)-strtotime("00:00:00"))/60);
+                $time2_hour = FLOOR($time2/60);
+                $gas_price_1=$row["average"];
+                $time2 = $time2 % 60;
 
 
+                if($time2>=53 || $time2 <=7)
+                {
+                    $array_time[$time2_hour][0][] = $time2;
+                    $array_value_low[$time2_hour][0][] = $row["low"];
+                    $array_value_high[$time2_hour][0][] = $row["high"];
+                    $array_value[$time2_hour][0][] = $row["average"];
+                    
+                }
+                else if($time2>=8 && $time2<=22) 
+                {
+                    $array_time[$time2_hour][1][] = $time2;
+                    $array_value_low[$time2_hour][1][] = $row["low"];
+                    $array_value_high[$time2_hour][1][] = $row["high"];
+                    $array_value[$time2_hour][1][] = $row["average"];
+                }
+                else if($time2>=23 && $time2<=37)
+                {
+ 
+                    $array_time[$time2_hour][2][] =$time2;
+                    $array_value_low[$time2_hour][2][] = $row["low"];
+                    $array_value_high[$time2_hour][2][] = $row["high"];
+                    $array_value[$time2_hour][2][] = $row["average"];
+                }
+                else if($time2>=38 && $time2<=52)
+                {
+                    $array_time[$time2_hour][3][] = $time2;
+                    $array_value_low[$time2_hour][3][] = $row["low"];
+                    $array_value_high[$time2_hour][3][] = $row["high"];
+                    $array_value[$time2_hour][3][] = $row["average"];
+                }
 
+            }   
+        }
+    
+ 
+        for($i=0;$i<24;$i++)
+            {
+                for($h=0; $h<4; $h++){
+                    $dem = 0;
+                    $value = 0;
+                    $value_low = 0;
+                    $value_high = 0;
 
+                    for($j=0; $j<100; $j++)
+                    {
+                        if(isset($array_time[$i][$h][$j])){
+                            //echo $array_time[$i][$h][$j]."  :   ".$array_value[$i][$h][$j]."........." ;
+                            //echo "       ";
+                            $dem++;
+                            $value = $value + $array_value[$i][$h][$j];
+                            $value_low = $value_low + $array_value_low[$i][$h][$j];
+                            $value_high = $value_high + $array_value_high[$i][$h][$j];
+                        }   
+                    }
+                    if($h != 0)
+                        $gas_time[] = $i.":".($h*15); 
+                    else $gas_time[] = $i.":"."00";
+                    //echo "     ".$i.":".$h."......";
+
+                    if($dem != 0)
+                    {
+                        $gas_value[] = FLOOR($value/$dem);
+                        $gas_value_low[] = FLOOR($value_low/$dem);
+                        $gas_value_high[] = FLOOR($value_high/$dem);
+                        //echo FLOOR($value/$dem);
+                    }
+                    else {
+                        $gas_value[] = 0;
+                        $gas_value_low[] = 0;
+                        $gas_value_high[] = 0;
+                    }
+                
+                    
+            }
+            }
 
 
 ?>
@@ -147,9 +128,7 @@ echo "------------------------------------------";
         <meta name="viewport" content="width=device-width, initial-scale=1.0">     <!-- Đặt chế độ xem  -->
         <link rel="stylesheet" href="./style.css"> <!-- Thẻ nhúng file CSS -->
         <script src="./js.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>    
-
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script> 
     </head>
 
 <body>
@@ -157,27 +136,26 @@ echo "------------------------------------------";
         <form name="date_gas" action="" method="GET">
             <label>DATE:</label>
             <select  name="date_gas">
-            <?php 
-                $sql = "SELECT DISTINCT gas_date  FROM  gas";
-                $result = $conn->query($sql);
-                if ($result->num_rows > 0) {
-                    // output dữ liệu trên trang
+                <?php 
+                    $sql = "SELECT DISTINCT gas_date  FROM  gas";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {  
+                        while($row = $result->fetch_assoc()) {  ?>
+                            <option value="<?php echo  $row["gas_date"];?>"  <?php if($row["gas_date"]==$date_gas)  echo "selected"; ?>><?php echo  $row["gas_date"];?></option>
+                        <?php
+                        }
+                    }  
                     
-                    while($row = $result->fetch_assoc()) {  ?>
-                        <option value="<?php echo  $row["gas_date"];?>"  <?php if($row["gas_date"]==$today)  echo "selected"; ?>><?php echo  $row["gas_date"];?></option>
-                    <?php
-                    }
-                }  
-                
-            ?>
-            
+                ?>
             </select>
+
             <input type="submit" value="UPDATE">
         </form>
     </h2>
 
 
     <div style="width:90%"><canvas id="line_chart" ></canvas></div>
+    <h2>FULL DATA:</h2>
     <div style="width:90%"><canvas id="line_chart2" ></canvas></div>
     
 </body>
@@ -188,22 +166,41 @@ echo "------------------------------------------";
 
 <script>
     
-    //const a = ['03:31:00','09:21:09','21:03:27']
+
     var CHART = document.getElementById("line_chart").getContext('2d');
     var line_chart = new Chart(CHART,{
         type: 'line',
         data:{
-            labels: <?php echo json_encode($gas_time, JSON_NUMERIC_CHECK);   ?>,
-            //xAxisID: a,
+            labels: <?php  echo json_encode($gas_time, JSON_NUMERIC_CHECK);   ?>,
+
             datasets: [{
-                label: "test",
-                data: <?php echo json_encode($gas_value, JSON_NUMERIC_CHECK);   ?>,
+                label: "low",
+                data: <?php echo json_encode($gas_value_low, JSON_NUMERIC_CHECK);   ?>,
                
-                //fill: false,
-                backgroundColor: 'rgb(99, 99, 211)',
-                borderColor: 'rgb(81, 81, 211)',
+                fill: false,
+                backgroundColor: '#00c9a7',
+                borderColor: '#00c9a7',
                 borderWidth: 0
             },
+                {
+                label: "average",
+                data: <?php echo json_encode($gas_value, JSON_NUMERIC_CHECK);   ?>,
+               
+                fill: false,
+                backgroundColor: '#3498db',
+                borderColor: '#3498db',
+                borderWidth: 0
+            },
+            {
+                label: "high",
+                data: <?php echo json_encode($gas_value_high, JSON_NUMERIC_CHECK);   ?>,
+               
+                fill: false,
+                backgroundColor: 'rgb(165, 42, 42)',
+                borderColor: 'rgb(165, 42, 42)',
+                borderWidth: 0
+            }
+            
             //           
         ]
         },
@@ -217,25 +214,24 @@ echo "------------------------------------------";
 
             scales: {
                 xAxes: [{
-                    /*
                     afterTickToLabelConversion: function(data){
                     var xLabels = data.ticks;
 
                     xLabels.forEach(function (labels, i) {
-                        if (xLabels[i] % 60 != 0){
+                        if (i % 4 != 0){
                             xLabels[i] = '';
                         }
                     });
                     } 
-                    */
+
                        
                         }],
                 
                         yAxes: [{
                              ticks: {
-                                 suggestedMin: 0,
-                                 suggestedMax: 140,
-                                 stepSize: 20
+                                // suggestedMin: 0,
+                                 //suggestedMax: 140,
+                                // stepSize: 20
 
                                      }
                                 }]
@@ -255,21 +251,39 @@ echo "------------------------------------------";
             labels: <?php echo json_encode($gas_time_0, JSON_NUMERIC_CHECK);   ?>,
             //xAxisID: a,
             datasets: [{
-                label: "test",
-                data: <?php echo json_encode($gas_price, JSON_NUMERIC_CHECK);   ?>,
+                label: "low",
+                data: <?php echo json_encode($gas_price_low, JSON_NUMERIC_CHECK);   ?>,
                
-                //fill: false,
-                backgroundColor: 'rgb(99, 99, 211)',
-                borderColor: 'rgb(81, 81, 211)',
+                fill: false,
+                backgroundColor: '#00c9a7',
+                borderColor: '#00c9a7',
                 borderWidth: 0
             },
+                {
+                label: "average",
+                data: <?php echo json_encode($gas_price, JSON_NUMERIC_CHECK);   ?>,
+               
+                fill: false,
+                backgroundColor: '#3498db',
+                borderColor: '#3498db',
+                borderWidth: 0
+            },
+            {
+                label: "high",
+                data: <?php echo json_encode($gas_price_high, JSON_NUMERIC_CHECK);   ?>,
+               
+                fill: false,
+                backgroundColor: 'rgb(165, 42, 42)',
+                borderColor: 'rgb(165, 42, 42)',
+                borderWidth: 0
+            }
             //           
         ]
         },
         options: {
             elements: {
                     point:{
-                        //radius: 0
+                        radius: 0
                     }
                 },
 
@@ -292,9 +306,9 @@ echo "------------------------------------------";
                 
                         yAxes: [{
                              ticks: {
-                                 suggestedMin: 0,
-                                 suggestedMax: 140,
-                                 stepSize: 20
+                                // suggestedMin: 0,
+                               //  suggestedMax: 140,
+                               //  stepSize: 20
 
                                      }
                                 }]

@@ -3,21 +3,36 @@
     padding:0;
     box-sizing:border-box; 
     font-family: inherit;
+    color: #4a4f55;
 }
 
 body {
-    background-color: rgb(240, 242, 245);
+    background-color: rgb(240, 242, 245);;
 }
 
 a {
-    text-decoration: none
+    text-decoration: none;
 }
 
-.header{
+a:hover {
+    color:  rgb(43, 43, 126);
+}
+
+a:visited {
+    color: rgb(43, 43, 126);
+
+}
+
+a:active {
+    color: rgb(43, 43, 126);
+}
+
+
+.header {
     display: inline-table;
     width:100%;
     height: 40px;
-    padding: 20px;
+    padding: 20px 20px 0px 20px;
 }
 
 
@@ -41,12 +56,57 @@ a {
 
 }
 
+.contact {
+    float: right;
+    height: 56px;
+    
+}
+
+.contact > ul >li {
+    list-style: none;
+    float: left;
+    position: relative;
+    width: 50px;
+    
+}
+
+
+#tele {
+    width: 43px;
+    height: 43px;
+}
+
+#tele:hover {
+    width: 50px;
+    height: 50px;
+    transition: ease-in 0.30s;
+    -moz-tranimation: ease-in 0.30s;
+    -webkit-transition: ease-in 0.30s;
+}
+
+
+
+#discord {
+    margin-top: 2px;
+    width: 40px;
+    height: 40px;
+}
+
+#discord:hover {
+    width: 47px;
+    height: 47px;
+    transition: ease-in 0.30s;
+    -moz-tranimation: ease-in 0.30s;
+    -webkit-transition: ease-in 0.30s;
+}
+
+
 .price_gas {
     display: inline-table;
     width: 100%;
     margin: 0 auto;
-   
     background-color: white;
+    color: rgb(31, 28, 28);
 }
 
 .root {
@@ -72,15 +132,14 @@ ul.root > li {
 .price {
     width: 80%;
     padding: 10px;
-    background-color: #f1f1f1;
-    border: 1px solid blue;
-    border-radius: 5px;
+    border: 1px solid rgba(43, 43, 158, 0.733);
+    border-radius: 15px;
     margin: auto;
 }
 
 .moth_average {
     margin: 30px;
-    background-color: rgb(75, 190, 243);
+    background-color: rgb(75, 190, 243);;
     padding: 20px;
     color: white;
 
@@ -89,9 +148,10 @@ ul.root > li {
 
 .chart {
     background-color: white;
-    width: 95%;
+    width: 90%;
     margin: auto;
-
+    
+    border-radius: 20px;
 }
 
 .title_his{
@@ -102,8 +162,21 @@ ul.root > li {
     line-height: 40px;
 }
 
+#ava {
+    color: rgb(76, 76, 238);
+    font-size: large;
+}
+
+#ava:hover {
+
+    color: rgb(43, 43, 226);
+    font-weight: bolder;
+
+   
+}
+
 .line_chart{
-    width:90%;
+    width:85%;
     margin:auto
 }
 

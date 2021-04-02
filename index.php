@@ -5,7 +5,7 @@
 
     if(isset($_GET["date_gas"]) )
     {
-        $date_gas = $_GET["date_gas"];
+        $date_gas = addslashes($_GET["date_gas"]);
     } else {
         $date_gas = $today;
     }
@@ -265,6 +265,11 @@
     
         ]},
         options: {
+            title: {
+                display: true,
+                text: 'Time zone: UTC',
+                fontColor: 'rgba(43, 43, 158, 0.733)',
+            },
             elements: {
                     point:{
                         //radius: 0
@@ -301,6 +306,9 @@
     var CHART = document.getElementById("line_chart2").getContext('2d');
     var line_chart2 = new Chart(CHART,{
         type: 'line',
+        title:{
+		text: "test",
+	    },
         data:{
             labels: <?php echo json_encode($gas_time_0, JSON_NUMERIC_CHECK);   ?>,
             //xAxisID: a,
@@ -332,6 +340,11 @@
             }        
         ]},
         options: {
+            title: {
+                display: true,
+                text: 'Time zone: UTC',
+                fontColor: 'rgba(43, 43, 158, 0.733)',
+            },
             elements: {
                     point:{
                         radius: 0

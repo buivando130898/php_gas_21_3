@@ -186,21 +186,21 @@
 
     if(isset($_GET["gas"]) )
     {
-        $shear = $_GET["gas"];
+        $shear = addslashes($_GET["gas"]);
     } else {
         $shear = "average";
     }
 
     if(isset($_GET["min"]) )
     {
-        $min = $_GET["min"];
+        $min = addslashes($_GET["min"]);
     } else {
         $min = 90;
     }
 
     if(isset($_GET["max"]) )
     {
-        $max = $_GET["max"];
+        $max = addslashes($_GET["max"]);
         
     } else {
         $max = 130;
@@ -212,7 +212,7 @@
 
     if(isset($_GET["gas_month"]) )
     {
-        $gas_month_select = $_GET["gas_month"];
+        $gas_month_select = addslashes($_GET["gas_month"]);
     } else {
         $gas_month_select = $gas_month[count($gas_month)-1];
         //echo $gas_month_select;
@@ -434,6 +434,11 @@
         ]
         },
         options: {
+            title: {
+                display: true,
+                text: 'Time zone: UTC',
+                fontColor: 'rgba(43, 43, 158, 0.733)',
+            },
             elements: {
                     point:{
                         //radius: 0
@@ -475,7 +480,7 @@
     chart = anychart.heatMap(data);
 
     // set the chart title
-    chart.title("");
+    chart.title("time zone: UTC");
     // create and configure the color scale
     var customColorScale = anychart.scales.ordinalColor();
     var min_gas = <?PHP echo json_encode( $min, JSON_NUMERIC_CHECK);    ?>;

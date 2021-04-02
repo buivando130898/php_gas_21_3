@@ -322,7 +322,7 @@
         <meta name="author" content="Tác giả" />
         <meta http-equiv="Content-Language" content="Vi"> <!-- Khai bao ngôn ngữ -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0">     <!-- Đặt chế độ xem  -->
-        <link rel="stylesheet" href="./index3.css"> <!-- Thẻ nhúng file CSS -->
+        <link rel="stylesheet" href="./index1.css"> <!-- Thẻ nhúng file CSS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script> 
         <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js"></script>
         <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-heatmap.min.js"></script>

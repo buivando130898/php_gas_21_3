@@ -1,38 +1,179 @@
-// check for saved 'darkMode' in localStorage
-let darkMode = localStorage.getItem('darkMode'); 
 
-const darkModeToggle = document.querySelector('#dark-mode-toggle');
+    var seconds=0;
+    function gas() {
+        const endpoint = 'https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=A3MXYC2RACK6CAKUN1J1GDFIF78F9QYKKI';
+        fetch(endpoint)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                document.getElementById("low").innerHTML=data.result.SafeGasPrice;
+                document.getElementById("average").innerHTML=data.result.ProposeGasPrice;
+                document.getElementById("high").innerHTML=data.result.FastGasPrice;
+                
+                
+                });
+    }
 
-const enableDarkMode = () => {
-  // 1. Add the class to the body
-  document.body.classList.add('darkmode');
-  // 2. Update darkMode in localStorage
-  localStorage.setItem('darkMode', 'enabled');
-}
+    gas();
 
-const disableDarkMode = () => {
-  // 1. Remove the class from the body
-  document.body.classList.remove('darkmode');
-  // 2. Update darkMode in localStorage 
-  localStorage.setItem('darkMode', null);
-}
- 
-// If the user already visited and enabled darkMode
-// start things off with it on
-if (darkMode === 'enabled') {
-  enableDarkMode();
-}
+    setInterval(function() {
+        ++seconds;
+        if(seconds==10){
+            gas();
+            seconds=0;
+        }
+        document.getElementById("second").innerHTML=seconds;
+    }, 1000)
 
-// When someone clicks the button
-darkModeToggle.addEventListener('click', () => {
-  // get their darkMode setting
-  darkMode = localStorage.getItem('darkMode'); 
-  
-  // if it not current enabled, enable it
-  if (darkMode !== 'enabled') {
-    enableDarkMode();
-  // if it has been enabled, turn it off  
-  } else {  
-    disableDarkMode(); 
-  }
-});
+    var CHART = document.getElementById("line_chart").getContext('2d');
+    var line_chart = new Chart(CHART,{
+        type: 'line',
+        data:{
+            labels: <?php  echo json_encode($gas_time, JSON_NUMERIC_CHECK);   ?>,
+
+            datasets: [{
+                label: "low",
+                data: <?php echo json_encode($gas_value_low, JSON_NUMERIC_CHECK);   ?>,
+               
+                fill: false,
+                backgroundColor: '#00c9a7',
+                borderColor: '#00c9a7',
+                borderWidth: 0
+            },
+                {
+                label: "average",
+                data: <?php echo json_encode($gas_value, JSON_NUMERIC_CHECK);   ?>,
+               
+                fill: false,
+                backgroundColor: '#3498db',
+                borderColor: '#3498db',
+                borderWidth: 0
+            },
+            {
+                label: "high",
+                data: <?php echo json_encode($gas_value_high, JSON_NUMERIC_CHECK);   ?>,
+               
+                fill: false,
+                backgroundColor: 'rgb(165, 42, 42)',
+                borderColor: 'rgb(165, 42, 42)',
+                borderWidth: 0
+            }
+    
+        ]},
+        options: {
+            title: {
+                display: true,
+                text: 'Time zone: UTC',
+                fontColor: 'rgba(43, 43, 158, 0.733)',
+            },
+            elements: {
+                    point:{
+                        //radius: 0
+                    }
+                },
+
+
+            scales: {
+                xAxes: [{
+                    afterTickToLabelConversion: function(data){
+                        var xLabels = data.ticks;
+
+                        xLabels.forEach(function (labels, i) {
+                            if (i % 4 != 0){
+                                xLabels[i] = '';
+                            }
+                        });
+                    } 
+                }],
+                
+                yAxes: [{
+                        ticks: {
+                        // suggestedMin: 0,
+                            //suggestedMax: 140,
+                        // stepSize: 20
+
+                                }
+                        }]
+
+                }   
+        }
+    });
+
+    var CHART = document.getElementById("line_chart2").getContext('2d');
+    var line_chart2 = new Chart(CHART,{
+        type: 'line',
+        title:{
+		text: "test",
+	    },
+        data:{
+            labels: <?php echo json_encode($gas_time_0, JSON_NUMERIC_CHECK);   ?>,
+            //xAxisID: a,
+            datasets: [{
+                label: "low",
+                data: <?php echo json_encode($gas_price_low, JSON_NUMERIC_CHECK);   ?>,
+                fill: false,
+                backgroundColor: '#00c9a7',
+                borderColor: '#00c9a7',
+                borderWidth: 0
+            },
+                {
+                label: "average",
+                data: <?php echo json_encode($gas_price, JSON_NUMERIC_CHECK);   ?>,
+               
+                fill: false,
+                backgroundColor: '#3498db',
+                borderColor: '#3498db',
+                borderWidth: 0
+            },
+            {
+                label: "high",
+                data: <?php echo json_encode($gas_price_high, JSON_NUMERIC_CHECK);   ?>,
+               
+                fill: false,
+                backgroundColor: 'rgb(165, 42, 42)',
+                borderColor: 'rgb(165, 42, 42)',
+                borderWidth: 0
+            }        
+        ]},
+        options: {
+            title: {
+                display: true,
+                text: 'Time zone: UTC',
+                fontColor: 'rgba(43, 43, 158, 0.733)',
+            },
+            elements: {
+                    point:{
+                        radius: 0
+                    }
+                },
+
+
+            scales: {
+                xAxes: [{
+                    /*
+                    afterTickToLabelConversion: function(data){
+                    var xLabels = data.ticks;
+
+                    xLabels.forEach(function (labels, i) {
+                        if (xLabels[i] % 60 != 0){
+                            xLabels[i] = '';
+                        }
+                    });
+                    } 
+                    */
+                }],
+                
+                yAxes: [{
+                        ticks: {
+                        // suggestedMin: 0,
+                        //  suggestedMax: 140,
+                        //  stepSize: 20
+                                }
+                        }]
+                    }   
+            }
+
+
+
+
+    });

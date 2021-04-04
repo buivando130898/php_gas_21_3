@@ -130,6 +130,7 @@
         <link rel="stylesheet" href="./index3.css"> <!-- Thẻ nhúng file CSS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script> 
         <link rel="shortcut icon" type="image/png" href="https://iothello.tk/img/gas1.png"/>
+        <script src="index.js"></script>
     </head>
 
 <body>
@@ -141,8 +142,8 @@
         </div>
         <div class="contact">
             <ul>
-                <li><a href="https://t.me/meepne"><img id="tele" src="tele.png" alt=""></a></li>
-                <li><a href="https://discord.gg/hUyQuYvJ"><img id="discord" src="discord2.png" alt=""></a></li>
+                <li><a href="https://t.me/meepne"><img id="tele" src="https://iothello.tk/img/tele.png" alt=""></a></li>
+                <li><a href="https://discord.gg/hUyQuYvJ"><img id="discord" src="https://iothello.tk/img/discord2.png" alt=""></a></li>
             </ul>
         </div>
 

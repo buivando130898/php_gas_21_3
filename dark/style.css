@@ -1,0 +1,17 @@
+body {
+    background-color: rgb(235, 235, 178);
+    color: black;
+}
+
+.dark {
+    background-color: rgb(49, 35, 112);
+    color: white;
+}
+
+.test1 {
+    background-color: tomato;
+}
+
+.test2 {
+    background-color: teal;
+}

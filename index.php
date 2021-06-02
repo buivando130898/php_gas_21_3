@@ -1,5 +1,83 @@
 <?php
 
+    function sort1($average, $price)
+    {
+        for($i=0; $i<24; $i++)
+        {
+            for($j=0; $j<24; $j++)
+            {
+                if($average[$i] < $average[$j])
+                {
+                    $tg = $average[$i];
+                    $average[$i] = $average[$j];
+                    $average[$j] = $tg;
+                } 
+            }
+        }
+
+        for($i=0; $i<24; $i++)
+        {
+            if($price==$average[$i])
+            {
+                if($i<6)
+                {
+                    return "#00c9a7";
+                }else if($i<12)
+                {
+                    return "#3498db";
+                }else if($i<18)
+                {
+                    return "#edbb05e6";
+                }else if($i<24)
+                {
+                    return "#ff1b1bc2";
+                }
+            }
+            
+
+        }
+        
+    }
+
+    function check_gas()
+    {
+        $Day_number = 5;
+        $today = date("Y-m-d");
+        //$today = "2021-03-14";
+        $date_today = date_create($today);
+
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "update_gas1";
+        $conn = mysqli_connect($servername,$username,$password,$dbname);
+
+        for($i=0;$i<24;$i++) {
+            $sum = 0;
+            $count = 0;
+            for($j=1;$j<=$Day_number;$j++) {
+
+                date_modify($date_today, "-$j days");
+                $date = date_format($date_today, "Y-m-d");
+                $sql = "SELECT average FROM gas where  HOUR(gas_time) = $i AND gas_date = '$date' ";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) 
+                    {
+                        $sum = $sum + $row["average"];
+                        $count++;
+                    }
+                }
+                date_modify($date_today, "+$j days");
+            }
+            if($count!=0)
+                $average[$i] = FLOOR($sum/$count);
+        }
+        return $average;
+    }
+    
+    $average = check_gas();
+    
     $hour = 0;
     $today = date("Y-m-d");
 
@@ -167,6 +245,58 @@
     </div>
         
     <div class = "chart">
+
+    <div class="title_his"><h2 style="color:#2b2b7e">Gas price prediction</h2></div>
+    <style>
+        #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            text-align: center;
+            font-size: 0.7rem;
+
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: center;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+        <div style="padding: 20px; overflow: auto;">
+        <p>Transaction fee prediction on <?php echo $today  ?> (time zone: UTC)</p>
+        <table id="customers" >
+            <tr>
+                <td>Time</td>
+                <?php  for($i=0;$i<24;$i++) { ?>
+                <td>  <?php  echo "$i:00";   ?>  </td>
+                <?php  } ?>
+            </tr>
+
+            <tr>
+                <td>Price average</td>
+                <?php  for($i=0;$i<24;$i++) { ?>
+                <td style="background-color: <?php echo sort1($average, $average[$i])  ?>">  <?php  echo $average[$i];   ?>  </td>
+                <?php  } ?>
+            </tr>
+        </table>
+
+
+    </div>
+        
+
+
        <div class="title_his"><h2 style="color:#2b2b7e">Gas price by day</h2></div>
         <h3 style="padding: 20px;">
             <form name="date_gas" action="" method="GET">
